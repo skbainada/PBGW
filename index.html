@@ -1,1 +1,50 @@
-<html><body><h1>Duty Portal</h1></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Duty Search</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Duty Chart Search</h1>
+
+<input type="text" id="searchBox" placeholder="Enter Duty No">
+
+<button onclick="searchDuty()">Search</button>
+
+<div id="result"></div>
+
+<script>
+let dutyData = [];
+
+fetch('data.json')
+.then(response => response.json())
+.then(data => {
+    dutyData = data;
+});
+
+function searchDuty() {
+
+    let dutyNo = document.getElementById("searchBox").value;
+
+    let result = dutyData.find(
+        item => item.DutyNo == dutyNo
+    );
+
+    if(result){
+        document.getElementById("result").innerHTML =
+        `
+        <h2>${result.DutyNo}</h2>
+        <p>Location: ${result.Location}</p>
+        <p>Time: ${result.Time}</p>
+        `;
+    }
+    else{
+        document.getElementById("result").innerHTML =
+        "Duty Not Found";
+    }
+}
+</script>
+
+</body>
+</html>
